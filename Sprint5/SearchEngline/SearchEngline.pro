@@ -20,4 +20,5 @@ HEADERS += \
     search.h \
     invertedindexinterface.h \
     avltreeinvertedindex.h \
-    hashtableinvertedindex.h
+    hashtableinvertedindex.h \
+    json.hpp
