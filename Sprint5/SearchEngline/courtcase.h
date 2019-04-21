@@ -11,19 +11,19 @@ class CourtCase
 {
 public:
     CourtCase();
-    CourtCase(int, int, int, string, string, string, string);
-    int getCount(string);
+    CourtCase(unsigned int, unsigned int, unsigned int, string, string, string, string, string, vector<tuple<string, unsigned int>>*);
+    unsigned int getCount(string);
     string toString();
 private:
-    int year;
-    int volumeNum;
-    int pageNum;
+    unsigned int year;
+    unsigned int volumeNum;
+    unsigned int pageNum;
     string bookWithOpinion;
     string petitioner;
     string respondent;
     string majorityOpinionAuthor;
-    string location;
-    vector<tuple<string, int>> workCountFrequency;
+    string judgementDecision;
+    vector<tuple<string, unsigned int>>* wordCountFrequency;
 };
 
 #endif // COURTCASE_H
