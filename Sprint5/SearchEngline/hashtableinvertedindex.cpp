@@ -68,3 +68,5 @@ void HashTableInvertedIndex<J,T>::reHash(){
 
     arraySize = newSize;
 }
+
+template class HashTableInvertedIndex<string, string>;
