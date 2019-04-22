@@ -33,6 +33,10 @@ vector<string> HashTableInvertedIndex::get(string obj1){
     return std::get<1>(invertedIndex[index]);
 }
 
+int HashTableInvertedIndex::getNumWords(){
+    return entries;
+}
+
 int HashTableInvertedIndex::hash(string obj1){
     return std::hash<string>{}(obj1);
 }

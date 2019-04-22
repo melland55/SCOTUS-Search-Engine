@@ -13,6 +13,7 @@ public:
     HashTableInvertedIndex();
     void add(string, string);
     vector<string> get(string);
+    int getNumWords();
 private:
     int hash(string);
     void reHash();
