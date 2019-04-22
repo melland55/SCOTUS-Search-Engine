@@ -1,23 +1,24 @@
 #ifndef HASHTABLEINVERTEDINDEX_H
 #define HASHTABLEINVERTEDINDEX_H
 
-#include <courtcase.h>
 #include <tuple>
 #include <vector>
+#include <string>
 
-template <typename J, typename T>
+using namespace std;
+
 class HashTableInvertedIndex
 {
 public:
     HashTableInvertedIndex();
-    void add(J, T);
-    vector<T> get(J);
+    void add(string, string);
+    vector<string> get(string);
 private:
-    int hash(J);
+    int hash(string);
     void reHash();
     int entries;
     int arraySize;
-    tuple<J, vector<T>>* invertedIndex;
+    tuple<string, vector<string>>* invertedIndex;
 };
 
 #endif // HASHTABLEINVERTEDINDEX_H

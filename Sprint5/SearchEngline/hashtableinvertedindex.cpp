@@ -1,21 +1,19 @@
 #include "hashtableinvertedindex.h"
 
-template <typename J, typename T>
-HashTableInvertedIndex<J, T>::HashTableInvertedIndex(){
+HashTableInvertedIndex::HashTableInvertedIndex(){
     arraySize = 997;
-    invertedIndex = new tuple<J, vector<T>>[arraySize];
+    invertedIndex = new tuple<string, vector<string>>[arraySize];
 
     for (int k = 0;k < arraySize;k++) {
-        invertedIndex[k] = new tuple<J, vector<T>>;
+        invertedIndex[k] = make_tuple("", *(new vector<string>));
     }
 
     entries = 0;
 }
 
-template <typename J, typename T>
-void HashTableInvertedIndex<J, T>::add(J obj1, T obj2){
+void HashTableInvertedIndex::add(string obj1, string obj2){
     int index = hash(obj1);
-    vector<T> temp = invertedIndex[index];
+    vector<string> temp = std::get<1>(invertedIndex[index]);
 
     temp.push_back(obj2);
 
@@ -27,40 +25,36 @@ void HashTableInvertedIndex<J, T>::add(J obj1, T obj2){
         }
     }
 
-    invertedIndex[index] = temp
+    std::get<1>(invertedIndex[index]) = temp
 ;}
 
-template <typename J, typename T>
-vector<T> HashTableInvertedIndex<J, T>::get(J obj1){
+vector<string> HashTableInvertedIndex::get(string obj1){
     int index = hash(obj1);
-    return invertedIndex[index];
+    return std::get<1>(invertedIndex[index]);
 }
 
-template <typename J, typename T>
-int HashTableInvertedIndex<J, T>::hash(J obj1){
-    return std::hash<J>(obj1);
+int HashTableInvertedIndex::hash(string obj1){
+    return std::hash<string>{}(obj1);
 }
 
-template <typename J, typename T>
-void HashTableInvertedIndex<J, T>::reHash(){
+void HashTableInvertedIndex::reHash(){
     int newSize = arraySize * 2 + 1;
-    tuple<J, vector<T>> tempIndex[] = new tuple<J, vector<T>>[newSize];
+    tuple<string, vector<string>> tempIndex[newSize];
 
     for (int k = 0;k < newSize;k++) {
-        invertedIndex[k] = new tuple<J, vector<T>>;
+        invertedIndex[k] = make_tuple("", *(new vector<string>));
     }
 
     for (int k = 0;k < arraySize;k++) {
-        if((invertedIndex[k].second).size() > 0){
-            int index = hash(invertedIndex[k].first);
-            tempIndex[index].second = invertedIndex[k].second;
+        if((std::get<1>(invertedIndex[k])).size() > 0){
+            int index = hash(std::get<0>(invertedIndex[k]));
+            std::get<1>(tempIndex[index]) = std::get<1>(invertedIndex[k]);
         }
     }
-
-    invertedIndex = new tuple<J, vector<T>>[newSize];
+    invertedIndex = new tuple<string, vector<string>>[newSize];
     for (int k = 0;k < newSize;k++) {
         invertedIndex[k] = tempIndex[k];
     }
-    delete[] tempIndex;
+
     arraySize = newSize;
 }
