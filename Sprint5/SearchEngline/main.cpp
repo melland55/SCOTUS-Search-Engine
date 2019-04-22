@@ -17,10 +17,10 @@ using json = nlohmann::json;
 
 
 void eraseAllSubStr(string&, const string&);
-void parseFiles(string, HashTableInvertedIndex<string, string>&);
+void parseFiles(string, HashTableInvertedIndex&);
 int main(int argc,char *argv[])
 {
-    HashTableInvertedIndex<string, string> hashTable;
+    HashTableInvertedIndex hashTable;
     parseFiles(argv[1], hashTable);
     vector<string> files = hashTable.get(argv[2]);
     for(int i = 0; i < files.size(); i++){
@@ -37,7 +37,7 @@ bool replace(std::string& str, const std::string& from, const std::string& to) {
     return true;
 }
 
-void parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable){
+void parseFiles(string dirName, HashTableInvertedIndex& hashTable){
     vector<string> strList;
     ifstream stopWords;
 
