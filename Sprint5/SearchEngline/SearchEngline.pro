@@ -11,7 +11,8 @@ SOURCES += \
     search.cpp \
     invertedindexinterface.cpp \
     avltreeinvertedindex.cpp \
-    hashtableinvertedindex.cpp
+    hashtableinvertedindex.cpp \
+    porter2_stemmer.cpp
 
 HEADERS += \
     searchengine.h \
@@ -20,4 +21,8 @@ HEADERS += \
     search.h \
     invertedindexinterface.h \
     avltreeinvertedindex.h \
-    hashtableinvertedindex.h
+    hashtableinvertedindex.h \
+    json.hpp \
+    porter2_stemmer.h \
+    hash.h \
+    string_veiw.h
