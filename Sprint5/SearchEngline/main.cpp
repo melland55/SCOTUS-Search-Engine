@@ -20,9 +20,12 @@ void eraseAllSubStr(string&, const string&);
 int parseFiles(string, HashTableInvertedIndex<string, string>&);
 int main(int argc,char *argv[])
 {
+    string temp = argv[2];
+    Porter2Stemmer::stem(temp);
+    cout << temp;
     HashTableInvertedIndex<string, string> hashTable;
     int num = parseFiles(argv[1], hashTable);
-    vector<string> files = hashTable.get(argv[2]);
+    vector<string> files = hashTable.get(temp);
     cout << "Documents Parsed : " << num << endl;
     cout << "Unique Words : " << hashTable.getNumWords() << endl;
     cout << "Documents Containing Word : " << files.size() << endl;

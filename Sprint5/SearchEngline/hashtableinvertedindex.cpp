@@ -14,7 +14,7 @@ HashTableInvertedIndex<J,T>::HashTableInvertedIndex(){
 
 template <typename J, typename T>
 void HashTableInvertedIndex<J,T>::add(J obj1, T obj2){
-    int index = hash(obj1);
+    int index = abs(hash(obj1) % arraySize);
     vector<T> temp = std::get<1>(invertedIndex[index]);
 
     temp.push_back(obj2);
