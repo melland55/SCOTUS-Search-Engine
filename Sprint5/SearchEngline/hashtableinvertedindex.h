@@ -7,19 +7,20 @@
 
 using namespace std;
 
+template <typename J, typename T>
 class HashTableInvertedIndex
 {
 public:
     HashTableInvertedIndex();
-    void add(string, string);
-    vector<string> get(string);
+    void add(J, T);
+    vector<T> get(J);
     int getNumWords();
 private:
-    int hash(string);
+    int hash(J);
     void reHash();
     int entries;
     int arraySize;
-    tuple<string, vector<string>>* invertedIndex;
+    tuple<J, vector<T>>* invertedIndex;
 };
 
 #endif // HASHTABLEINVERTEDINDEX_H

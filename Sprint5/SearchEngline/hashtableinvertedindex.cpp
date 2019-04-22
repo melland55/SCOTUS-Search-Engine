@@ -1,19 +1,21 @@
 #include "hashtableinvertedindex.h"
 
-HashTableInvertedIndex::HashTableInvertedIndex(){
+template <typename J, typename T>
+HashTableInvertedIndex<J,T>::HashTableInvertedIndex(){
     arraySize = 997;
-    invertedIndex = new tuple<string, vector<string>>[arraySize];
+    invertedIndex = new tuple<J, vector<T>>[arraySize];
 
     for (int k = 0;k < arraySize;k++) {
-        invertedIndex[k] = make_tuple("", *(new vector<string>));
+        invertedIndex[k] = make_tuple("", *(new vector<T>));
     }
 
     entries = 0;
 }
 
-void HashTableInvertedIndex::add(string obj1, string obj2){
+template <typename J, typename T>
+void HashTableInvertedIndex<J,T>::add(J obj1, T obj2){
     int index = hash(obj1);
-    vector<string> temp = std::get<1>(invertedIndex[index]);
+    vector<T> temp = std::get<1>(invertedIndex[index]);
 
     temp.push_back(obj2);
 
@@ -28,20 +30,24 @@ void HashTableInvertedIndex::add(string obj1, string obj2){
     std::get<1>(invertedIndex[index]) = temp
 ;}
 
-vector<string> HashTableInvertedIndex::get(string obj1){
+template <typename J, typename T>
+vector<T> HashTableInvertedIndex<J,T>::get(J obj1){
     int index = hash(obj1);
     return std::get<1>(invertedIndex[index]);
 }
 
-int HashTableInvertedIndex::getNumWords(){
+template <typename J, typename T>
+int HashTableInvertedIndex<J,T>::getNumWords(){
     return entries;
 }
 
-int HashTableInvertedIndex::hash(string obj1){
+template <typename J, typename T>
+int HashTableInvertedIndex<J,T>::hash(J obj1){
     return std::hash<string>{}(obj1);
 }
 
-void HashTableInvertedIndex::reHash(){
+template <typename J, typename T>
+void HashTableInvertedIndex<J,T>::reHash(){
     int newSize = arraySize * 2 + 1;
     tuple<string, vector<string>> tempIndex[newSize];
 
