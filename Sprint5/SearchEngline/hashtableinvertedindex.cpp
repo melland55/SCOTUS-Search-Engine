@@ -52,7 +52,15 @@ void HashTableInvertedIndex<J, T>::reHash(){
 
     for (int k = 0;k < arraySize;k++) {
         if((invertedIndex[k].second).size() > 0){
-
+            int index = hash(invertedIndex[k].first);
+            tempIndex[index].second = invertedIndex[k].second;
         }
     }
+
+    invertedIndex = new tuple<J, vector<T>>[newSize];
+    for (int k = 0;k < newSize;k++) {
+        invertedIndex[k] = tempIndex[k];
+    }
+    delete[] tempIndex;
+    arraySize = newSize;
 }
