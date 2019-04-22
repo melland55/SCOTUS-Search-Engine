@@ -4,6 +4,11 @@ template <typename J, typename T>
 HashTableInvertedIndex<J, T>::HashTableInvertedIndex(){
     arraySize = 997;
     invertedIndex = new tuple<J, vector<T>>[arraySize];
+
+    for (int k = 0;k < arraySize;k++) {
+        invertedIndex[k] = new tuple<J, vector<T>>;
+    }
+
     entries = 0;
 }
 
@@ -39,6 +44,15 @@ int HashTableInvertedIndex<J, T>::hash(J obj1){
 template <typename J, typename T>
 void HashTableInvertedIndex<J, T>::reHash(){
     int newSize = arraySize * 2 + 1;
-    tuple<J, vector<T>> temp[] = new tuple<J, vector<T>>[newSize];
+    tuple<J, vector<T>> tempIndex[] = new tuple<J, vector<T>>[newSize];
 
+    for (int k = 0;k < newSize;k++) {
+        invertedIndex[k] = new tuple<J, vector<T>>;
+    }
+
+    for (int k = 0;k < arraySize;k++) {
+        if((invertedIndex[k].second).size() > 0){
+
+        }
+    }
 }
