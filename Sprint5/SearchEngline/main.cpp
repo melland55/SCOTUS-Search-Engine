@@ -10,17 +10,22 @@
 #include <regex>
 #include <vector>
 #include "porter2_stemmer.h"
+#include "hashtableinvertedindex.h"
 
 using namespace std;
 using json = nlohmann::json;
 
-void eraseAllSubStr(string&, const string&);
-void parseFiles(string);
 
-int main()
+void eraseAllSubStr(string&, const string&);
+void parseFiles(string, HashTableInvertedIndex<string, string>&);
+int main(int argc,char *argv[])
 {
-    parseFiles("/home/student/Downloads/scotus");
-    cout << "Hello World!" << endl;
+    HashTableInvertedIndex<string, string> hashTable;
+    parseFiles(argv[1], hashTable);
+    vector<string> files = hashTable.get(argv[2]);
+    for(int i = 0; i < files.size(); i++){
+        cout << files[i] << endl;
+    }
     return 0;
 }
 
@@ -32,7 +37,7 @@ bool replace(std::string& str, const std::string& from, const std::string& to) {
     return true;
 }
 
-void parseFiles(string dirName){
+void parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable){
     vector<string> strList;
     ifstream stopWords;
 
@@ -73,7 +78,7 @@ void parseFiles(string dirName){
                                 str.erase(str.length() - 1, str.length() - 1);
                             }
                             Porter2Stemmer::stem(str);
-                            //Add str and file driectory (dirName + "/" + ent->d_name) to hash table
+                            hashTable.add(str, (dirName + "/" + ent->d_name));
                         }
                     }
                 }
