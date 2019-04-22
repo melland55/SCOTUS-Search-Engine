@@ -12,7 +12,8 @@ SOURCES += \
     invertedindexinterface.cpp \
     avltreeinvertedindex.cpp \
     hashtableinvertedindex.cpp \
-    porter2_stemmer.cpp
+    porter2_stemmer.cpp \
+    jsonparser.cpp
 
 HEADERS += \
     searchengine.h \
@@ -25,4 +26,5 @@ HEADERS += \
     json.hpp \
     porter2_stemmer.h \
     hash.h \
-    string_veiw.h
+    string_veiw.h \
+    jsonparser.h
