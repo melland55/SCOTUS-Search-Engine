@@ -17,15 +17,15 @@ using json = nlohmann::json;
 
 
 void eraseAllSubStr(string&, const string&);
-void parseFiles(string, HashTableInvertedIndex<string, string>&);
+int parseFiles(string, HashTableInvertedIndex<string, string>&);
 int main(int argc,char *argv[])
 {
     HashTableInvertedIndex<string, string> hashTable;
-    parseFiles(argv[1], hashTable);
+    int num = parseFiles(argv[1], hashTable);
     vector<string> files = hashTable.get(argv[2]);
-    for(int i = 0; i < files.size(); i++){
-        cout << files[i] << endl;
-    }
+    cout << "Documents Parsed : " << num << endl;
+    cout << "Unique Words : " << hashTable.getNumWords() << endl;
+    cout << "Documents Containing Word : " << files.size() << endl;
     return 0;
 }
 
@@ -37,7 +37,7 @@ bool replace(std::string& str, const std::string& from, const std::string& to) {
     return true;
 }
 
-void parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable){
+int parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable){
     vector<string> strList;
     ifstream stopWords;
     stopWords.open("./stop_words");
@@ -84,6 +84,7 @@ void parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTabl
             }
         }
         closedir(dir);
+        return sum;
     }
 }
 
