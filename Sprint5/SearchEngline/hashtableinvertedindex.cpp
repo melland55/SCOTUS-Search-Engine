@@ -3,11 +3,12 @@
 template <typename J, typename T>
 HashTableInvertedIndex<J,T>::HashTableInvertedIndex(){
     arraySize = 997;
-    invertedIndex = new tuple<J, vector<T>>[arraySize];
+    invertedIndex = new vector<tuple<J, vector<T>>>[arraySize];
+    //invertedIndex = new tuple<J, vector<T>>[arraySize];
 
-    for (int k = 0;k < arraySize;k++) {
+    /*for (int k = 0;k < arraySize;k++) {
         invertedIndex[k] = make_tuple("", *(new vector<T>));
-    }
+    }*/
 
     entries = 0;
 }
@@ -49,7 +50,7 @@ int HashTableInvertedIndex<J,T>::hash(J obj1){
 template <typename J, typename T>
 void HashTableInvertedIndex<J,T>::reHash(){
     int newSize = arraySize * 2 + 1;
-    tuple<string, vector<string>> tempIndex[newSize];
+    vector<tuple<string, vector<string>>> tempIndex[newSize];
 
     for (int k = 0;k < newSize;k++) {
         invertedIndex[k] = make_tuple("", *(new vector<string>));
@@ -61,7 +62,7 @@ void HashTableInvertedIndex<J,T>::reHash(){
             std::get<1>(tempIndex[index]) = std::get<1>(invertedIndex[k]);
         }
     }
-    invertedIndex = new tuple<string, vector<string>>[newSize];
+    invertedIndex = new vector<tuple<J, vector<T>>>[newSize];
     for (int k = 0;k < newSize;k++) {
         invertedIndex[k] = tempIndex[k];
     }

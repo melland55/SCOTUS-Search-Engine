@@ -21,7 +21,8 @@ private:
     void reHash();
     int entries;
     int arraySize;
-    tuple<J, vector<T>>* invertedIndex;
+    //tuple<J, vector<T>>* invertedIndex;
+    vector<tuple<J, vector<T>>> invertedIndex[];
 };
 
 #endif // HASHTABLEINVERTEDINDEX_H
