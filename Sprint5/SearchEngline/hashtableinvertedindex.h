@@ -12,6 +12,7 @@ class HashTableInvertedIndex
 {
 public:
     HashTableInvertedIndex();
+    //add(J key, T value, int occur = 1)
     void add(J, T);
     vector<T> get(J);
     int getNumWords();
