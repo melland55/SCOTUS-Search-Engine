@@ -31,6 +31,10 @@ template <typename J, typename T>
 vector<T> HashTableInvertedIndex<J,T>::get(J obj1){
     int index = hash(obj1);
 
+    /*if(invertedIndex[index]){
+        I need to check if this is a new word or not
+    }*/
+
     vector<Entry<J,T>> hashIndexVector = invertedIndex[index];
 
     for (int k = 0;k < hashIndexVector.size();k++) {
