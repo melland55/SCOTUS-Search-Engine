@@ -14,10 +14,10 @@ public:
     UserInterface(bool);
     void run(HashTableInvertedIndex<string, string>&);
     void maintenacenMode(HashTableInvertedIndex<string, string>&);
-    void interactiveMode();
+    void interactiveMode(HashTableInvertedIndex<string, string>&);
+    void searchMode(HashTableInvertedIndex<string, string>&);
     void addToIndex(string);
     void clearIndex();
-    void newSearch(string);
     void displayResults();
 private:
     bool isHash;
