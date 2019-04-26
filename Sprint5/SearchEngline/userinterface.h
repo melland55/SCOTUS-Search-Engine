@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "courtcase.h"
-#include "hashtableinvertedindex.h"
+#include "index.h"
 #include "jsonparser.h"
 
 
@@ -12,10 +12,10 @@ class UserInterface
 public:
     UserInterface();
     UserInterface(bool);
-    void run(HashTableInvertedIndex<string, string>&);
-    void maintenacenMode(HashTableInvertedIndex<string, string>&);
-    void interactiveMode(HashTableInvertedIndex<string, string>&);
-    void searchMode(HashTableInvertedIndex<string, string>&);
+    void run(Index&);
+    void maintenacenMode(Index&);
+    void interactiveMode(Index&);
+    void searchMode(Index&);
     void addToIndex(string);
     void clearIndex();
     void displayResults();

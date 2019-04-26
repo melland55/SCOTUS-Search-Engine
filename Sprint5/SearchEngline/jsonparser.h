@@ -1,14 +1,14 @@
 #ifndef JSONPARSER_H
 #define JSONPARSER_H
 #include <string>
-#include <hashtableinvertedindex.h>
+#include <index.h>
 
 
 class JsonParser
 {
 public:
     JsonParser();
-    int parseFiles(string, HashTableInvertedIndex<string, string>&);
+    static int parseFiles(string, Index&);
 };
 
 

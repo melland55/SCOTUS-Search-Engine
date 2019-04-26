@@ -10,10 +10,10 @@ SOURCES += \
     courtcase.cpp \
     search.cpp \
     invertedindexinterface.cpp \
-    avltreeinvertedindex.cpp \
     hashtableinvertedindex.cpp \
     porter2_stemmer.cpp \
-    jsonparser.cpp
+    jsonparser.cpp \
+    index.cpp
 
 HEADERS += \
     searchengine.h \
@@ -27,4 +27,5 @@ HEADERS += \
     porter2_stemmer.h \
     hash.h \
     string_veiw.h \
-    jsonparser.h
+    jsonparser.h \
+    index.h

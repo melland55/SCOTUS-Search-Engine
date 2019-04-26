@@ -18,7 +18,7 @@ JsonParser::JsonParser(){
 
 }
 
-int parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable){
+int JsonParser::parseFiles(string dirName, Index& index){
     //Loads all stop word strings into a vector of strings
     vector<string> strList;
     ifstream stopWords("./stop_words");
@@ -30,12 +30,13 @@ int parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable
     string extn = "json";
     DIR *dir;
     struct dirent *ent;
+
     //Checks if there are any Files in Directory dirName
     if((dir = opendir(dirName.c_str())) != NULL) {
         int sum = 0;
 
         //Loop through every File in Directory dirName and parses
-        while((ent = readdir(dir)) != NULL && sum <= 5){
+        while((ent = readdir(dir)) != NULL && sum < 10){
             int len = strlen(ent->d_name);
             if(ent->d_type == DT_REG && len > extn.length() && strcmp(ent->d_name + len - extn.length(), extn.c_str()) == 0){
                 sum++;
@@ -56,7 +57,7 @@ int parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable
                     document = regex_replace(document, reg, "");
                 }
 
-                //Remove all non alpha and space characters from string document
+                //Remove all non alpha and non space characters from string document
                 document.erase(remove_if(document.begin(), document.end(), [](char c) {return (!isalpha(c) && !isspace(c)) ;} ), document.end());
 
                 //Makes all characters in doucement lowercase
@@ -69,7 +70,7 @@ int parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable
                 //Loops through document separating all words and removing whitespace
                 while(getline(data, str, ' ')){
 
-                    //Adds all words from document to hashTable
+                    //Adds all words from document to index
                     if(str != "\n" && str != ""){
 
                         //Only adds word if current word str is not a stop word
@@ -83,8 +84,8 @@ int parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable
                             //Stems current words str
                             Porter2Stemmer::stem(str);
 
-                            //Adds current word str to hash table
-                            //hashTable.add(str, (dirName + "/" + ent->d_name));
+                            //Adds current word str to the index
+                            index.add(str, (dirName + "/" + ent->d_name));
                         }
                     }
                 }
@@ -93,4 +94,5 @@ int parseFiles(string dirName, HashTableInvertedIndex<string, string>& hashTable
         closedir(dir);
         return sum;
     }
+    return 0;
 }

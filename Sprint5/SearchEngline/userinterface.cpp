@@ -16,7 +16,7 @@ UserInterface::UserInterface(bool dec){
     isHash = dec;
 }
 
-void UserInterface::run(HashTableInvertedIndex<string, string>& hashTable){
+void UserInterface::run(Index& index){
     cout << "╔════════════════════════╗" << endl;
     cout << "║Welcome to Scotus Search║" << endl;
     cout << "╚════════════════════════╝" << endl << endl;
@@ -31,13 +31,13 @@ void UserInterface::run(HashTableInvertedIndex<string, string>& hashTable){
     if(tolower(mode) == 'q'){
         return;
     }else if(tolower(mode) == 'm'){
-        maintenacenMode(hashTable);
+        maintenacenMode(index);
     }else{
-        interactiveMode(hashTable);
+        interactiveMode(index);
     }
 }
 
-void UserInterface::maintenacenMode(HashTableInvertedIndex<string, string>& hashTable){
+void UserInterface::maintenacenMode(Index& index){
     cout << "╭────────────────────────╮" << endl;
     cout << "│    Maintenance Mode    │" << endl;
     cout << "╰────────────────────────╯" << endl << endl;
@@ -50,14 +50,20 @@ void UserInterface::maintenacenMode(HashTableInvertedIndex<string, string>& hash
     cin >> fileName;
     cout << endl;
     if(fileName.length() == 1 && tolower(fileName[0]) == 'q'){
-        run(hashTable);
+        run(index);
     }else if(fileName == "clear"){
-        //Clear Index
+        cout << endl << "Index Cleared" << endl;
+        index.clear();
+        maintenacenMode(index);
     }else{
         JsonParser json;
         ifstream test(fileName);
         if(!test.is_open()){
-            cout << "           Warning" << endl;
+            cout << "           ";
+            for(int i = 0; i < fileName.length() / 2; i++){
+                cout << " ";
+            }
+            cout << "Warning" << endl;
             cout << "╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳";
             for(int i = 0; i < fileName.length(); i++){
                 cout << "╳";
@@ -68,25 +74,24 @@ void UserInterface::maintenacenMode(HashTableInvertedIndex<string, string>& hash
             for(int i = 0; i < fileName.length(); i++){
                 cout << "╳";
             }
-            cout << endl;
+            cout << endl << endl;
             cout << "Please Enter New Selection" << endl;
-            maintenacenMode(hashTable);
+            maintenacenMode(index);
         }else{
-            int num = 0;
+            test.close();
             cout << "Opening " << fileName << " and Parsing Files..." << endl;
-            //num = json.parseFiles(fileName, hashTable);
+            int num = JsonParser::parseFiles(fileName, index);
             if(num == 0){
                 cout << "--No Files Found in Directory " << fileName << endl;
-                maintenacenMode(hashTable);
             }else{
-                cout << num << " Files Loaded Succsesfully" << endl;
-                run(hashTable);
+                cout << num << " Files Loaded Succsesfully" << endl << endl;
             }
+            maintenacenMode(index);
         }
     }
 }
 
-void UserInterface::interactiveMode(HashTableInvertedIndex<string, string>& hashTable){
+void UserInterface::interactiveMode(Index& index){
     cout << "╭────────────────────────╮" << endl;
     cout << "│    Interactive Mode    │" << endl;
     cout << "╰┬──────────────────────┬╯" << endl;
@@ -107,22 +112,22 @@ void UserInterface::interactiveMode(HashTableInvertedIndex<string, string>& hash
     cin >> mode;
     cout << endl;
     if(mode.length() == 1 && tolower(mode[0]) == 'q'){
-        run(hashTable);
+        run(index);
     }else if(mode.length() == 1 && tolower(mode[0]) == 'a'){
         isHash = false;
-        interactiveMode(hashTable);
+        interactiveMode(index);
     }else if(mode.length() == 1 && tolower(mode[0]) == 'h'){
         isHash = true;
-        interactiveMode(hashTable);
+        interactiveMode(index);
     }else if(mode.length() == 1 && tolower(mode[0]) == 's'){
-        searchMode(hashTable);
-        interactiveMode(hashTable);
+        searchMode(index);
+        interactiveMode(index);
     }else{
-        interactiveMode(hashTable);
+        interactiveMode(index);
     }
 }
 
-void UserInterface::searchMode(HashTableInvertedIndex<string, string>& hashTable){
+void UserInterface::searchMode(Index& index){
     cout << endl << endl;
     cout << "┍╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼┒" << endl;
     cout << "╿       Search Mode      ╽" << endl;
@@ -223,7 +228,7 @@ void UserInterface::searchMode(HashTableInvertedIndex<string, string>& hashTable
             }
         }
     }
-    //vector<CourtCase> cases = hashTable.findCases();
+    //vector<CourtCase> cases = index.findCases();
     vector<CourtCase> cases;
     for(int i = 0; i < 35; i++){
         CourtCase file;
@@ -268,7 +273,7 @@ void UserInterface::searchMode(HashTableInvertedIndex<string, string>& hashTable
             transform(userInput.begin(), userInput.end(), userInput.begin(), ::tolower);
         }
     }
-    searchMode(hashTable);
+    searchMode(index);
 }
 
 void UserInterface::addToIndex(string){
