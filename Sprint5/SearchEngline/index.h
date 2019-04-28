@@ -10,9 +10,9 @@
 
 using namespace std;
 
-struct Entry(){
-    string word;
-    vector<tuple(string, int)> locations;
+struct Entry{
+    string entry;
+    vector<tuple<string, int>> occurrences;
 };
 
 class Index

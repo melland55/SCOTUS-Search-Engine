@@ -10,14 +10,11 @@ SOURCES += \
     courtcase.cpp \
     search.cpp \
     invertedindexinterface.cpp \
-<<<<<<< HEAD
     porter2_stemmer.cpp \
     jsonparser.cpp \
-    index.cpp
-=======
+    index.cpp \
     avltreeinvertedindex.cpp \
     porter2_stemmer.cpp
->>>>>>> Due to hashtable being templeted, I merged into just a header file
 
 HEADERS += \
     searchengine.h \
