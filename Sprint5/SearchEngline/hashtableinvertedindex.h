@@ -73,11 +73,11 @@ template <typename J, typename T>
 vector<tuple<T, int>> HashTableInvertedIndex<J,T>::get(J obj1){
     int index = hash(obj1, arraySize);
 
-    vector<Entry<J,T>> hashIndexVector = invertedIndex[index];
+    vector<Entry> hashIndexVector = invertedIndex[index];
 
     for (unsigned long k = 0;k < hashIndexVector.size();k++) {
         if(hashIndexVector.at(k).entry == obj1){
-            return *(hashIndexVector.at(k).occurrences);
+            return hashIndexVector.at(k).occurrences;
         }
     }
 
