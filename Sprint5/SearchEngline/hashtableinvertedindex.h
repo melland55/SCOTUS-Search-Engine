@@ -34,14 +34,14 @@ private:
 template <typename J, typename T>
 HashTableInvertedIndex<J,T>::HashTableInvertedIndex(){
     arraySize = 997;
-    invertedIndex = new vector<Entry<J, T>>[arraySize];
+    invertedIndex = new vector<Entry>[arraySize];
     entries = 0;
 }
 
 template <typename J, typename T>
 HashTableInvertedIndex<J,T>::HashTableInvertedIndex(int size){
     arraySize = size;
-    invertedIndex = new vector<Entry<J, T>>[arraySize];
+    invertedIndex = new vector<Entry>[arraySize];
     entries = 0;
 }
 
