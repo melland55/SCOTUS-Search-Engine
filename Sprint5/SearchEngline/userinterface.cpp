@@ -60,18 +60,18 @@ void UserInterface::maintenacenMode(Index& index){
         ifstream test(fileName);
         if(!test.is_open()){
             cout << "           ";
-            for(int i = 0; i < fileName.length() / 2; i++){
+            for(unsigned int i = 0; i < fileName.length() / 2; i++){
                 cout << " ";
             }
             cout << "Warning" << endl;
             cout << "╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳";
-            for(int i = 0; i < fileName.length(); i++){
+            for(unsigned int i = 0; i < fileName.length(); i++){
                 cout << "╳";
             }
             cout << endl;
             cout << "╳Directory \"" << fileName << "\" Does not Exist╳" << endl;
             cout << "╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳";
-            for(int i = 0; i < fileName.length(); i++){
+            for(unsigned int i = 0; i < fileName.length(); i++){
                 cout << "╳";
             }
             cout << endl << endl;
@@ -235,7 +235,7 @@ void UserInterface::searchMode(Index& index){
         cases.push_back(file);
     }
     string userInput = "?";
-    int sum = 0;
+    unsigned int sum = 0;
     cout << endl;
     cout << "         RESULTS    " << endl;
     cout << "┍╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼┒" << endl;
@@ -250,7 +250,7 @@ void UserInterface::searchMode(Index& index){
         if(userInput == "m"){
             userInput = "i";
         }
-        for(int i = sum; i < cases.size() && i < sum + 10 ; i++){
+        for(unsigned int i = sum; i < cases.size() && i < sum + 10 ; i++){
             //cases[i].print(i);
             cout << i << endl;
         }
