@@ -6,42 +6,10 @@
 #include <string>
 #include <algorithm>
 #include <tuple>
+#include "index.h"
 #define MAX_CHAIN_LEN 5
 
 using namespace std;
-
-template <typename J, typename T>
-struct Entry {
-    J entry;
-    vector<tuple<T, int>>* occurrences;
-
-    Entry(){
-        entry = "";
-        occurrences = new vector<tuple<T, int>>();
-    }
-
-    Entry(string tEntry){
-        entry = tEntry;
-        occurrences = new vector<tuple<T, int>>();
-    }
-
-    Entry(string tEntry, T loc){
-        entry = tEntry;
-        occurrences = new vector<tuple<T, int>>();
-        tuple<T, int> temp(loc, 1);
-        occurrences->push_back(temp);
-    }
-
-    Entry(string tEntry, vector<T, int> loc){
-        entry = tEntry;
-        occurrences = new vector<tuple<T, int>>();
-        occurrences->insert(occurrences->end(), loc.begin(), loc.end());
-    }
-
-    bool operator==(const Entry& entry){
-        return this->entry == entry.entry;
-    }
-};
 
 template <typename J, typename T>
 class HashTableInvertedIndex
@@ -49,9 +17,8 @@ class HashTableInvertedIndex
 public:
     HashTableInvertedIndex();
     HashTableInvertedIndex(int);
-    HashTableInvertedIndex(vector<Entry<J, T>>);
-    //add(J key, T value, int occur = 1)
-    void add(Entry<J,T>);
+    HashTableInvertedIndex(vector<Entry>);
+    void add(Entry);
     vector<tuple<T, int>> get(J);
     int getNumWords();
     int getArraySize();
@@ -61,7 +28,7 @@ private:
     void reHash();
     int entries;
     int arraySize;
-    vector<Entry<T, J>>* invertedIndex;
+    vector<Entry>* invertedIndex;
 };
 
 template <typename J, typename T>
@@ -79,10 +46,10 @@ HashTableInvertedIndex<J,T>::HashTableInvertedIndex(int size){
 }
 
 template <typename J, typename T>
-HashTableInvertedIndex<J,T>::HashTableInvertedIndex(vector<Entry<J,T>> vect){
+HashTableInvertedIndex<J,T>::HashTableInvertedIndex(vector<Entry> vect){
     entries = static_cast<int>(vect.size());
     arraySize = static_cast<int>(entries * 0.8);
-    invertedIndex = new vector<Entry<J,T>>[arraySize];
+    invertedIndex = new vector<Entry>[arraySize];
 
     for(unsigned long k = 0;k < vect.size();k++) {
         this->add(vect.at(k));
@@ -90,9 +57,9 @@ HashTableInvertedIndex<J,T>::HashTableInvertedIndex(vector<Entry<J,T>> vect){
 }
 
 template <typename J, typename T>
-void HashTableInvertedIndex<J,T>::add(Entry<J,T> ent){
+void HashTableInvertedIndex<J,T>::add(Entry ent){
     int index = hash(ent.entry, arraySize);
-    vector<Entry<J,T>>* hashIndexVector = new vector<Entry<J, T>>();
+    vector<Entry>* hashIndexVector = new vector<Entry>();
 
     try{
         *hashIndexVector = invertedIndex[index];
@@ -133,7 +100,7 @@ HashTableInvertedIndex<J,T>* HashTableInvertedIndex<J,T>::operator=(HashTableInv
     arraySize = hash.getArraySize();
     entries = hash.getNumWords();
 
-    invertedIndex = new vector<Entry<J,T>>[arraySize];
+    invertedIndex = new vector<Entry>[arraySize];
 
     for(int k = 0;k < arraySize;k++){
         //invertedIndex[k] = h
@@ -148,7 +115,7 @@ int HashTableInvertedIndex<J,T>::hash(J obj1, int size){
 template <typename J, typename T>
 void HashTableInvertedIndex<J,T>::reHash(){
     int newSize = arraySize * 2 + 1;
-    vector<Entry<string, string>>* temp = new vector<Entry<string,string>>[newSize];
+    vector<Entry>* temp = new vector<Entry>[newSize];
 
     for(int k = 0; k < arraySize;k++){
         for(unsigned long j = 0;j < invertedIndex[k].size();j++){
