@@ -32,9 +32,15 @@ AVLTreeInvertedIndex::AVLTreeInvertedIndex(){
 }
 
 template<class T>
-void AVLTreeInvertedIndex::add(vector<T>& words){
+node<T>* AVLTreeInvertedIndex::makeNode(vector<T>& entries){
 
 }
+
+template<class T>
+void AVLTreeInvertedIndex::add(vector<T>& entries){
+    head = makeNode(entries);
+}
+
 
 template<class T>
 node<T>* AVLTreeInvertedIndex::find(T){
@@ -49,11 +55,6 @@ node<T>* AVLTreeInvertedIndex::find(T){
         }
     }
     return cur;
-}
-
-template<class T>
-int AVLTreeInvertedIndex::getBalance(node<T>*){
-
 }
 
 #endif // AVLTREEINVERTEDINDEX_H

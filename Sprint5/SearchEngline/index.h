@@ -10,6 +10,11 @@
 
 using namespace std;
 
+struct Entry(){
+    string word;
+    vector<tuple(string, int)> locations;
+};
+
 class Index
 {
 public:
