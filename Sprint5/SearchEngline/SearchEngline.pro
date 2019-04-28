@@ -10,7 +10,6 @@ SOURCES += \
     courtcase.cpp \
     search.cpp \
     invertedindexinterface.cpp \
-    hashtableinvertedindex.cpp \
     porter2_stemmer.cpp \
     jsonparser.cpp \
     index.cpp
