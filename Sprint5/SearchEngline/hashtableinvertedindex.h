@@ -51,8 +51,6 @@ public:
     HashTableInvertedIndex(int);
     HashTableInvertedIndex(vector<Entry<J, T>>);
     //add(J key, T value, int occur = 1)
-    void add(J, T);
-    void add(J, vector<T, int>);
     void add(Entry<J,T>);
     vector<tuple<T, int>> get(J);
     int getNumWords();
@@ -89,63 +87,6 @@ HashTableInvertedIndex<J,T>::HashTableInvertedIndex(vector<Entry<J,T>> vect){
     for(unsigned long k = 0;k < vect.size();k++) {
         this->add(vect.at(k));
     }
-}
-
-template <typename J, typename T>
-void HashTableInvertedIndex<J,T>::add(J obj1, T obj2){
-    int index = hash(obj1, arraySize);
-    vector<Entry<J,T>>* hashIndexVector = new vector<Entry<J, T>>();
-
-    try{
-        *hashIndexVector = invertedIndex[index];
-    } catch(...){}
-
-    for(unsigned long k = 0;k < hashIndexVector->size();k++) {
-        if(hashIndexVector->at(k).entry == obj1){
-            vector<T>* temp = hashIndexVector->at(k).occurrences;
-            if(std::find(temp->begin(), temp->end(), obj2) == temp->end()){
-                hashIndexVector->at(k).occurrences->push_back(obj2);
-                entries += 1;
-
-                if((entries >= (arraySize * 0.75)) || (hashIndexVector->at(k).occurrences->size() > MAX_CHAIN_LEN)){
-                    reHash();
-                }
-
-                return;
-            }
-        }
-    }
-    hashIndexVector->push_back(Entry<J,T>(obj1, obj2));
-    entries++;
-    invertedIndex[index] = *hashIndexVector;
-}
-
-template <typename J, typename T>
-void HashTableInvertedIndex<J,T>::add(J obj1, vector<T, int> locations){
-    int index = hash(obj1, arraySize);
-    vector<Entry<J,T>>* hashIndexVector = new vector<Entry<J, T>>();
-
-    try{
-        *hashIndexVector = invertedIndex[index];
-    } catch(...){}
-
-    for(unsigned long k = 0;k < hashIndexVector->size();k++) {
-        if(hashIndexVector->at(k).entry == obj1){
-            vector<T>* temp = hashIndexVector->at(k).occurrences;
-            temp->insert(temp->end(), locations.begin(), locations.end());
-            entries += 1;
-
-            if((entries >= (arraySize * 0.75)) || (hashIndexVector->at(k).occurrences->size() > MAX_CHAIN_LEN)){
-                reHash();
-            }
-
-            return;
-        }
-    }
-
-    hashIndexVector->push_back(Entry<J,T>(obj1, locations));
-    entries++;
-    invertedIndex[index] = *hashIndexVector;
 }
 
 template <typename J, typename T>
