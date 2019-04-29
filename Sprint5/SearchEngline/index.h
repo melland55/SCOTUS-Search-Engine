@@ -13,6 +13,27 @@ using namespace std;
 struct Entry{
     string entry;
     vector<tuple<string, int>> occurrences;
+    bool operator==(const Entry& temp){
+        if(temp.entry == entry){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    bool operator>(const Entry& temp){
+        if(temp.entry < entry){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    bool operator<(const Entry& temp){
+        if(temp.entry > entry){
+            return true;
+        }else{
+            return false;
+        }
+    }
 };
 
 class Index
@@ -22,9 +43,9 @@ public:
     ~Index();
     void clear();
     void add(string, string);
-    vector<tuple<string, vector<tuple<string, int>>>>* getIndex();
+    vector<Entry>* getIndex();
 private:
-    vector<tuple<string, vector<tuple<string, int>>>> index;
+    vector<Entry> index;
 };
 
 #endif // INDEX_H

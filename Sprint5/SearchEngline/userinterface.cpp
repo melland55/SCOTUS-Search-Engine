@@ -5,18 +5,20 @@
 #include <stdio.h>
 #include "userinterface.h"
 #include "porter2_stemmer.h"
+#include "avltreeinvertedindex.h"
+#include "hashtableinvertedindex.h"
 
 using namespace std;
 
 UserInterface::UserInterface(){
-    isHash = true;
+    isHash = false;
 }
 
 UserInterface::UserInterface(bool dec){
     isHash = dec;
 }
 
-void UserInterface::run(Index& index){
+void UserInterface::run(){
     cout << "╔════════════════════════╗" << endl;
     cout << "║Welcome to Scotus Search║" << endl;
     cout << "╚════════════════════════╝" << endl << endl;
@@ -31,13 +33,13 @@ void UserInterface::run(Index& index){
     if(tolower(mode) == 'q'){
         return;
     }else if(tolower(mode) == 'm'){
-        maintenacenMode(index);
+        maintenacenMode();
     }else{
-        interactiveMode(index);
+        interactiveMode();
     }
 }
 
-void UserInterface::maintenacenMode(Index& index){
+void UserInterface::maintenacenMode(){
     cout << "╭────────────────────────╮" << endl;
     cout << "│    Maintenance Mode    │" << endl;
     cout << "╰────────────────────────╯" << endl << endl;
@@ -50,11 +52,11 @@ void UserInterface::maintenacenMode(Index& index){
     cin >> fileName;
     cout << endl;
     if(fileName.length() == 1 && tolower(fileName[0]) == 'q'){
-        run(index);
+        run();
     }else if(fileName == "clear"){
         cout << endl << "Index Cleared" << endl;
         index.clear();
-        maintenacenMode(index);
+        maintenacenMode();
     }else{
         JsonParser json;
         ifstream test(fileName);
@@ -76,7 +78,7 @@ void UserInterface::maintenacenMode(Index& index){
             }
             cout << endl << endl;
             cout << "Please Enter New Selection" << endl;
-            maintenacenMode(index);
+            maintenacenMode();
         }else{
             test.close();
             cout << "Opening " << fileName << " and Parsing Files..." << endl;
@@ -86,12 +88,19 @@ void UserInterface::maintenacenMode(Index& index){
             }else{
                 cout << num << " Files Loaded Succsesfully" << endl << endl;
             }
-            maintenacenMode(index);
+            maintenacenMode();
         }
     }
 }
 
-void UserInterface::interactiveMode(Index& index){
+void UserInterface::interactiveMode(){
+    cout << "Loading Index..." << endl;
+    if(!isHash){
+        iif = AVLTreeInvertedIndex<Entry>();
+    }else{
+        //iif = HashTableInvertedIndex<string, string>();
+    }
+    cout << endl;
     cout << "╭────────────────────────╮" << endl;
     cout << "│    Interactive Mode    │" << endl;
     cout << "╰┬──────────────────────┬╯" << endl;
@@ -112,22 +121,22 @@ void UserInterface::interactiveMode(Index& index){
     cin >> mode;
     cout << endl;
     if(mode.length() == 1 && tolower(mode[0]) == 'q'){
-        run(index);
+        run();
     }else if(mode.length() == 1 && tolower(mode[0]) == 'a'){
         isHash = false;
-        interactiveMode(index);
+        interactiveMode();
     }else if(mode.length() == 1 && tolower(mode[0]) == 'h'){
         isHash = true;
-        interactiveMode(index);
+        interactiveMode();
     }else if(mode.length() == 1 && tolower(mode[0]) == 's'){
-        searchMode(index);
-        interactiveMode(index);
+        searchMode();
+        interactiveMode();
     }else{
-        interactiveMode(index);
+        interactiveMode();
     }
 }
 
-void UserInterface::searchMode(Index& index){
+void UserInterface::searchMode(){
     cout << endl << endl;
     cout << "┍╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼┒" << endl;
     cout << "╿       Search Mode      ╽" << endl;
@@ -273,7 +282,7 @@ void UserInterface::searchMode(Index& index){
             transform(userInput.begin(), userInput.end(), userInput.begin(), ::tolower);
         }
     }
-    searchMode(index);
+    searchMode();
 }
 
 void UserInterface::addToIndex(string){

@@ -12,9 +12,7 @@ SOURCES += \
     invertedindexinterface.cpp \
     porter2_stemmer.cpp \
     jsonparser.cpp \
-    index.cpp \
-    avltreeinvertedindex.cpp \
-    porter2_stemmer.cpp
+    index.cpp
 
 HEADERS += \
     searchengine.h \

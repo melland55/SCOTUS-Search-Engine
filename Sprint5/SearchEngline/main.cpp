@@ -22,9 +22,8 @@ using json = nlohmann::json;
 
 int main(int argc,char *argv[])
 {
-    Index index;
     UserInterface interface;
-    interface.run(index);
+    interface.run();
     return 0;
 }
 
