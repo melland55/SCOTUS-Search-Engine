@@ -1,6 +1,7 @@
 #include "invertedindexinterface.h"
 
-InvertedIndexInterface::InvertedIndexInterface()
+template <typename J>
+InvertedIndexInterface<J>::InvertedIndexInterface()
 {
 
 }
