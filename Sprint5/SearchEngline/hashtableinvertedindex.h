@@ -73,6 +73,7 @@ void HashTableInvertedIndex<J>::add(J ent){
     }
 }
 
+//Searches for a word in the hashtable and returns a pointer to what will be an entry for this program
 template <typename J>
 J* HashTableInvertedIndex<J>::find(string obj1){
     int index = hash(obj1, arraySize);
@@ -89,6 +90,7 @@ J* HashTableInvertedIndex<J>::find(string obj1){
     return temp;
 }
 
+//accesses the # of entries
 template <typename J>
 int HashTableInvertedIndex<J>::getNumWords(){
     return this->entries;
