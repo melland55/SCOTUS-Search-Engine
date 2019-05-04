@@ -85,12 +85,12 @@ void HashTableInvertedIndex<J>::add(J ent){
 //Searches for a word in the hashtable and returns a pointer to what will be an entry for this program
 template <typename J>
 J* HashTableInvertedIndex<J>::find(string obj1){
-    unsigned int index = hash(obj1, arraySize);
+    int index = hash(obj1, arraySize);
 
-    vector<Entry> hashIndexVector = invertedIndex[index];
+    vector<Entry*> hashIndexVector = invertedIndex[index];
 
     for (unsigned long k = 0;k < hashIndexVector.size();k++) {
-        if(hashIndexVector.at(k).entry == obj1){
+        if(hashIndexVector.at(k)->entry == obj1){
             return hashIndexVector.at(k);
         }
     }
