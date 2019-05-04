@@ -87,11 +87,11 @@ template <typename J>
 J* HashTableInvertedIndex<J>::find(string obj1){
     int index = hash(obj1, arraySize);
 
-    vector<Entry*> hashIndexVector = invertedIndex[index];
+    vector<Entry> hashIndexVector = invertedIndex[index];
 
     for (unsigned long k = 0;k < hashIndexVector.size();k++) {
-        if(hashIndexVector.at(k)->entry == obj1){
-            return hashIndexVector.at(k);
+        if(hashIndexVector.at(k).entry == obj1){
+            return &hashIndexVector.at(k);
         }
     }
 
@@ -117,7 +117,7 @@ void HashTableInvertedIndex<J>::reHash(){
     unsigned int newSize = arraySize * 2 + 1;
     vector<Entry>* temp = new vector<Entry>[newSize];
 
-    for(int k = 0; k < arraySize;k++){
+    for(unsigned long k = 0; k < arraySize;k++){
         for(unsigned long j = 0;j < invertedIndex[k].size();j++){
             unsigned int newIndex = hash(invertedIndex[k].at(j).entry, newSize);
             temp[newIndex].push_back(invertedIndex[k].at(j));
