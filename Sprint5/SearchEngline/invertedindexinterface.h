@@ -1,7 +1,8 @@
 /*Owner: Jack Rosenblatt
  *History:
-    1.
+    1. moved entries to be a protected variable for use by child classes
     2. converted all int variables to be unsigned int
+    3. removed constructors due to being an abstract class
 */
 
 #ifndef INVERTEDINDEXINTERFACE_H
@@ -13,6 +14,7 @@ template <typename J>
 class InvertedIndexInterface
 {
 public:
+    //methods to be overwritten in child classes
     virtual unsigned int getNumWords() = 0;
     virtual J* find(string) = 0;
 protected:

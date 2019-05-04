@@ -5,7 +5,6 @@ CONFIG -= qt
 
 SOURCES += \
     main.cpp \
-    searchengine.cpp \
     userinterface.cpp \
     courtcase.cpp \
     search.cpp \
@@ -14,7 +13,6 @@ SOURCES += \
     index.cpp
 
 HEADERS += \
-    searchengine.h \
     userinterface.h \
     courtcase.h \
     search.h \
