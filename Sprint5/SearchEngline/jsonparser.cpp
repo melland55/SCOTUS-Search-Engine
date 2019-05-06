@@ -76,9 +76,10 @@ int JsonParser::parseFiles(string dirName, Index& index){
                         //Only adds word if current word str is not a stop word
                         if(find(strList.begin(), strList.end(), str) == strList.end() && str.length() > 2){
 
-                            //Removes \n from end of all words that contain it
-                            if(str[str.length() - 1] == '\n'){
-                                str.erase(str.length() - 1, str.length() - 1);
+                            //Removes \n all words that contain it
+                            size_t pos = string::npos;
+                            while((pos = str.find("\n")) != string::npos){
+                                str.erase(pos, 2);
                             }
 
                             //Stems current words str
