@@ -23,7 +23,7 @@ class HashTableInvertedIndex : public InvertedIndexInterface<J>
 public:
     HashTableInvertedIndex();
     HashTableInvertedIndex(unsigned int);
-    HashTableInvertedIndex(vector<Entry>);
+    HashTableInvertedIndex(vector<Entry>&);
     J* find(string);
     unsigned int getNumWords();
 private:
@@ -52,7 +52,7 @@ HashTableInvertedIndex<J>::HashTableInvertedIndex(unsigned int size){
 
 //Overloaded constructor that creates a hashtable out of a vector of entries
 template <typename J>
-HashTableInvertedIndex<J>::HashTableInvertedIndex(vector<Entry> vect){
+HashTableInvertedIndex<J>::HashTableInvertedIndex(vector<Entry>& vect){
     this->entries = static_cast<unsigned int>(vect.size());
     arraySize = static_cast<unsigned int>(this->entries * 0.8);
     invertedIndex = new vector<Entry>[arraySize];
@@ -95,8 +95,7 @@ J* HashTableInvertedIndex<J>::find(string obj1){
         }
     }
 
-    J* temp = new J();
-    return temp;
+    return nullptr;
 }
 
 //accesses the # of entries
