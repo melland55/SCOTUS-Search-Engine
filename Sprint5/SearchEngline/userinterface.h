@@ -18,7 +18,7 @@ public:
     void maintenacenMode();
     void interactiveMode();
     void searchMode();
-    vector<CourtCase> search(vector<string>& ands, vector<string>& ors, vector<string>& nots);
+    vector<tuple<string, int>> search(vector<string>& ands, vector<string>& ors, vector<string>& nots);
 private:
     bool isHash;
     Index index;

@@ -3,6 +3,7 @@
 #include <fstream>
 #include<algorithm>
 #include <stdio.h>
+#include <regex>
 #include "userinterface.h"
 #include "porter2_stemmer.h"
 #include "avltreeinvertedindex.h"
@@ -98,6 +99,11 @@ void UserInterface::maintenacenMode(){
 
 void UserInterface::interactiveMode(){
     cout << "Loading Index..." << endl;
+    if(index.getIndex()->empty()){
+        cout << "No files in index" << endl;
+        run();
+        return;
+    }
     if(!isHash && !index.getIndex()->empty()){
         iii = new AVLTreeInvertedIndex<Entry>(*index.getIndex());
     }else{
@@ -240,7 +246,7 @@ void UserInterface::searchMode(){
             }
         }
     }
-    vector<CourtCase> cases = search(ands, ors, nots);
+    vector<tuple<string, int>> cases = search(ands, ors, nots);
     string userInput = "?";
     unsigned int sum = 0;
     cout << endl;
@@ -258,8 +264,7 @@ void UserInterface::searchMode(){
             userInput = "i";
         }
         for(unsigned int i = sum; i < cases.size() && i < sum + 10 ; i++){
-            //cases[i].print(i);
-            cout << i << endl;
+            cout << i + 1 << ": " << get<0>(cases.at(i)) << endl;
         }
         sum += 10;
         while(userInput != "q" && userInput != "m"){
@@ -275,15 +280,35 @@ void UserInterface::searchMode(){
             }else{
                 cout << "No More Search Results" << endl;
             }
+            cout << "Type List Number to Print File" << endl;
             cout << "Press Q to Quit";
             cin >> userInput;
+            int listNum;
+            try {
+                listNum = stoi(userInput);
+                json file = json::parse(get<0>(cases.at(listNum)));
+                string document;
+                if(file.at("plain_text") != ""){
+                    document = file.at("plain_text");
+                }else{
+                    document = file.at("html");
+                    regex reg("\\<[^\\>]*\\>");
+                    //Removes all tags and nested tags using regex_replace
+                    document = regex_replace(document, reg, "");
+                }
+                for(int i = 0; i < document.size(); i++){
+                    cout << document.at(i) << endl;
+                }
+            } catch (...) {
+
+            }
             transform(userInput.begin(), userInput.end(), userInput.begin(), ::tolower);
         }
     }
     searchMode();
 }
 
-vector<CourtCase> UserInterface::search(vector<string>& ands, vector<string>& ors, vector<string>& nots){
+vector<tuple<string, int>> UserInterface::search(vector<string>& ands, vector<string>& ors, vector<string>& nots){
     vector<CourtCase> cases;
     vector<tuple<string, int>> results;
     for(unsigned int i = 0; i < ands.size(); i++){
@@ -380,16 +405,7 @@ vector<CourtCase> UserInterface::search(vector<string>& ands, vector<string>& or
         }
     }
     sort(results.begin(), results.end(), tupleSort);
-    for(unsigned int i = 0; i < results.size(); i++){
-        try{
-            json file = json::parse(get<0>(results.at(i)));
-            CourtCase tempCase(file.at("date_created"), file.at("id"), get<0>(results.at(i)));
-            cases.push_back(tempCase);
-        } catch(...){
-            CourtCase tempCase("", "", get<0>(results.at(i)));
-            cases.push_back(tempCase);
-        }
-    }
+    return results;
 }
 
 bool UserInterface::tupleSort(const tuple<string, int>& x, const tuple<string, int>& y){

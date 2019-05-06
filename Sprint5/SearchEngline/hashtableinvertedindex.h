@@ -107,7 +107,9 @@ J* HashTableInvertedIndex<J>::find(string obj1){
 //returns a positive int of the index from the hashed word modulused by size of HashTable
 template <typename J>
 unsigned int HashTableInvertedIndex<J>::hash(string obj1, unsigned int size){
-    return static_cast<unsigned int>(std::abs(static_cast<int>((std::hash<string>{}(obj1)) % size)));
+    unsigned int hashed = (std::hash<string>{}(obj1));
+    return hashed % size;
+    //return static_cast<unsigned int>(std::abs(hashed));
 }
 
 //Rehashes all entries now modulused on the new HashTable size
