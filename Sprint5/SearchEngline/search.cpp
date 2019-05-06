@@ -4,10 +4,6 @@ Search::Search(){
 
 }
 
-Search::Search(vector<string>*, vecotr<string>*, vector<string>*){
-
-}
-
-vector<CourtCase>* getResults(){
+Search::Search(vector<string>*, vector<string>*, vector<string>*){
 
 }

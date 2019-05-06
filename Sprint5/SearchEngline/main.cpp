@@ -20,12 +20,10 @@ using namespace std;
 
 using json = nlohmann::json;
 
-int main(int argc,char *argv[])
+int main()
 {
     UserInterface interface;
     interface.run();
-    Node<Entry>* x = new Node<Entry>();
-    Entry entry();
     return 0;
 }
 

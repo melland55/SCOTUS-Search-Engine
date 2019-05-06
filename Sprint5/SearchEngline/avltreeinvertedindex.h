@@ -29,7 +29,6 @@ public:
     void add(vector<T>&);
     T* find(string);
     int getBalance(Node<T>*);
-    //void deleteKids(Node<T>*);
 private:
     Node<T>* head;
 };
@@ -96,14 +95,5 @@ T* AVLTreeInvertedIndex<T>::find(string item){
     }
     return &cur->data;
 }
-
-//template<class T>
-//void AVLTreeInvertedIndex<T>::deleteKids(Node<T>* node){
-//    if(node != NULL){
-//        deleteKids(node->left);
-//        deleteKids(node->right);
-//        delete node;
-//    }
-//}
 
 #endif // AVLTREEINVERTEDINDEX_H

@@ -10,14 +10,12 @@
 
 using namespace std;
 
+//Sets Defualt Inverted Index to AVLTree
 UserInterface::UserInterface(){
     isHash = false;
 }
 
-UserInterface::UserInterface(bool dec){
-    isHash = dec;
-}
-
+//Runs the Main User Interface for Scotus Search
 void UserInterface::run(){
     cout << "╔════════════════════════╗" << endl;
     cout << "║Welcome to Scotus Search║" << endl;
@@ -27,6 +25,8 @@ void UserInterface::run(){
     cout << "M : Maintenance Mode" << endl;
     cout << "I : Interactive Mode" << endl;
     cout << "Q : Quit" << endl;
+
+    //Runs Mode Selected by User
     char mode;
     cin >> mode;
     cout << endl;
@@ -39,6 +39,7 @@ void UserInterface::run(){
     }
 }
 
+//Maintenacne Mode allows user to Load File Indexes and clear the Index
 void UserInterface::maintenacenMode(){
     cout << "╭────────────────────────╮" << endl;
     cout << "│    Maintenance Mode    │" << endl;
@@ -290,15 +291,27 @@ void UserInterface::searchMode(){
     searchMode();
 }
 
-void UserInterface::addToIndex(string){
-
+vector<CourtCase> UserInterface::search(vector<string>* ands, vector<string>* ors, vector<string>* nots){
+    vector<string> locations;
+    vector<int> relevencyScore;
+    for(unsigned int i = 0; i < ands->size(); i++){
+        Entry* temp;
+        if(isHash){
+            temp = hashTable->find(ands->at(i));
+        }else{
+            temp = avlTree->find(ands->at(i));
+        }
+        if(i == 0){
+            for(unsigned int j = 0; j < temp->occurrences.size(); j++){
+                string file = get<0>(temp->occurrences.at(j));
+                int frequency = get<1>(temp->occurrences.at(j));
+                for(unsigned int k = 0; k < locations.size(); k++){
+//                    if(frequency < loc.at(k)){
+//                        locations.insert(locations.begin() + k, );
+//                        return;
+//                    }
+                }
+            }
+        }
+    }
 }
-
-void UserInterface::clearIndex(){
-
-}
-
-void UserInterface::displayResults(){
-
-}
-

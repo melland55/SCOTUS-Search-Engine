@@ -14,14 +14,11 @@ class UserInterface
 {
 public:
     UserInterface();
-    UserInterface(bool);
     void run();
     void maintenacenMode();
     void interactiveMode();
     void searchMode();
-    void addToIndex(string);
-    void clearIndex();
-    void displayResults();
+    vector<CourtCase> search(vector<string>* ands, vector<string>* ors, vector<string>* nots);
 private:
     bool isHash;
     Index index;
