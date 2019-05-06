@@ -15,7 +15,6 @@ class InvertedIndexInterface
 {
 public:
     //methods to be overwritten in child classes
-    virtual unsigned int getNumWords() = 0;
     virtual J* find(string) = 0;
 protected:
     unsigned int entries;
