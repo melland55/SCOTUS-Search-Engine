@@ -22,10 +22,10 @@ class HashTableInvertedIndex : public InvertedIndexInterface<J>
 {
 public:
     HashTableInvertedIndex();
+    ~HashTableInvertedIndex();
     HashTableInvertedIndex(unsigned int);
     HashTableInvertedIndex(vector<Entry>&);
     J* find(string);
-    unsigned int getNumWords();
 private:
     unsigned int hash(string, unsigned int);
     void reHash();
@@ -40,6 +40,12 @@ HashTableInvertedIndex<J>::HashTableInvertedIndex(){
     arraySize = 997;
     invertedIndex = new vector<Entry>[arraySize];
     this->entries = 0;
+}
+
+//Default constructor that sets arraySize to 997
+template <typename J>
+HashTableInvertedIndex<J>::~HashTableInvertedIndex(){
+    delete invertedIndex;
 }
 
 //Overloaded constructor that sets a starting size for the hashtable
@@ -96,12 +102,6 @@ J* HashTableInvertedIndex<J>::find(string obj1){
     }
 
     return nullptr;
-}
-
-//accesses the # of entries
-template <typename J>
-unsigned int HashTableInvertedIndex<J>::getNumWords(){
-    return this->entries;
 }
 
 //returns a positive int of the index from the hashed word modulused by size of HashTable
