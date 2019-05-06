@@ -85,8 +85,12 @@ int JsonParser::parseFiles(string dirName, Index& index){
                             //Stems current words str
                             Porter2Stemmer::stem(str);
 
+
                             //Adds current word str to the index
-                            index.add(str, (dirName + "/" + ent->d_name));
+                            if(str.length() != 0){
+
+                                index.add(str, (dirName + "/" + ent->d_name));
+                            }
                         }
                     }
                 }
