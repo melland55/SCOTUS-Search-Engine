@@ -5,6 +5,8 @@
 #include "courtcase.h"
 #include "index.h"
 #include "invertedindexinterface.h"
+#include "avltreeinvertedindex.h"
+#include "hashtableinvertedindex.h"
 #include "jsonparser.h"
 
 
@@ -23,7 +25,9 @@ public:
 private:
     bool isHash;
     Index index;
-    InvertedIndexInterface iif;
+    //InvertedIndexInterface<Entry> iif;
+    AVLTreeInvertedIndex<Entry>* avlTree;
+    HashTableInvertedIndex<Entry>* hashTable;
     vector<CourtCase> results;
 };
 

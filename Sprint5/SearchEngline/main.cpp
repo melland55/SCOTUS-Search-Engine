@@ -24,6 +24,8 @@ int main(int argc,char *argv[])
 {
     UserInterface interface;
     interface.run();
+    Node<Entry>* x = new Node<Entry>();
+    Entry entry();
     return 0;
 }
 

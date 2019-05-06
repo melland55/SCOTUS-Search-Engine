@@ -96,9 +96,9 @@ void UserInterface::maintenacenMode(){
 void UserInterface::interactiveMode(){
     cout << "Loading Index..." << endl;
     if(!isHash){
-        iif = AVLTreeInvertedIndex<Entry>();
+        avlTree = new AVLTreeInvertedIndex<Entry>(*index.getIndex());
     }else{
-        //iif = HashTableInvertedIndex<string, string>();
+        hashTable = new HashTableInvertedIndex<Entry>(*index.getIndex());
     }
     cout << endl;
     cout << "╭────────────────────────╮" << endl;
@@ -237,7 +237,12 @@ void UserInterface::searchMode(){
             }
         }
     }
-    //vector<CourtCase> cases = index.findCases();
+    Entry* test;
+    if(isHash){
+        test = hashTable->find(ands[0]);
+    }else{
+        test = avlTree->find(ands[0]);
+    }
     vector<CourtCase> cases;
     for(int i = 0; i < 35; i++){
         CourtCase file;

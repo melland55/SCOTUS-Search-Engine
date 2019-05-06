@@ -13,22 +13,22 @@ using namespace std;
 struct Entry{
     string entry;
     vector<tuple<string, int>> occurrences;
-    bool operator==(const Entry& temp){
-        if(temp.entry == entry){
+    bool operator==(const string& temp){
+        if(temp == entry){
             return true;
         }else{
             return false;
         }
     }
-    bool operator>(const Entry& temp){
-        if(temp.entry < entry){
+    bool operator>(const string& temp){
+        if(temp < entry){
             return true;
         }else{
             return false;
         }
     }
-    bool operator<(const Entry& temp){
-        if(temp.entry > entry){
+    bool operator<(const string& temp){
+        if(temp > entry){
             return true;
         }else{
             return false;
