@@ -19,17 +19,17 @@ struct Node{
 };
 
 template<class T>
-class AVLTreeInvertedIndex
+class AVLTreeInvertedIndex : public InvertedIndexInterface<T>
 {
 public:
     AVLTreeInvertedIndex();
     ~AVLTreeInvertedIndex();
     AVLTreeInvertedIndex(vector<T>&);
+    T* find(string);
+private:
     Node<T>* makeNode(vector<T>&);
     void add(vector<T>&);
-    T* find(string);
-    int getBalance(Node<T>*);
-private:
+
     Node<T>* head;
 };
 

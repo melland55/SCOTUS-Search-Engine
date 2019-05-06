@@ -97,9 +97,9 @@ void UserInterface::maintenacenMode(){
 void UserInterface::interactiveMode(){
     cout << "Loading Index..." << endl;
     if(!isHash){
-        avlTree = new AVLTreeInvertedIndex<Entry>(*index.getIndex());
+        iii = new AVLTreeInvertedIndex<Entry>(*index.getIndex());
     }else{
-        hashTable = new HashTableInvertedIndex<Entry>(*index.getIndex());
+        iii = new HashTableInvertedIndex<Entry>(*index.getIndex());
     }
     cout << endl;
     cout << "╭────────────────────────╮" << endl;
@@ -291,27 +291,29 @@ void UserInterface::searchMode(){
     searchMode();
 }
 
-vector<CourtCase> UserInterface::search(vector<string>* ands, vector<string>* ors, vector<string>* nots){
-    vector<string> locations;
-    vector<int> relevencyScore;
+vector<CourtCase> UserInterface::search(vector<string>& ands, vector<string>& ors, vector<string>& nots){
+    vector<tuple<string, int>> results;
     for(unsigned int i = 0; i < ands->size(); i++){
         Entry* temp;
-        if(isHash){
-            temp = hashTable->find(ands->at(i));
-        }else{
-            temp = avlTree->find(ands->at(i));
-        }
         if(i == 0){
             for(unsigned int j = 0; j < temp->occurrences.size(); j++){
-                string file = get<0>(temp->occurrences.at(j));
-                int frequency = get<1>(temp->occurrences.at(j));
-                for(unsigned int k = 0; k < locations.size(); k++){
-//                    if(frequency < loc.at(k)){
-//                        locations.insert(locations.begin() + k, );
-//                        return;
-//                    }
+                results.push_back(temp->occurrences.at(j));
+            }
+        }else{
+            for(unsigned int j = 0; j < temp->occurrences.size(); j++){
+                bool dec = true;
+                for(unsigned int k = 0; k < results.size(); k++){
+                    if(get<0>(results.at(k)) == get<0>(temp->occurrences.at(j))){
+                        get<1>(results.at(k)) += get<1>(temp->occurrences.at(j));
+                        dec = false;
+                    }
+                }
+                if(dec){
+                    results.erase(results.begin() + k);
                 }
             }
         }
     }
+
+
 }

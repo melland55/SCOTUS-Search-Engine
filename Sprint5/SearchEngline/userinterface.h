@@ -18,11 +18,11 @@ public:
     void maintenacenMode();
     void interactiveMode();
     void searchMode();
-    vector<CourtCase> search(vector<string>* ands, vector<string>* ors, vector<string>* nots);
+    vector<CourtCase> search(vector<string>& ands, vector<string>& ors, vector<string>& nots);
 private:
     bool isHash;
     Index index;
-    //InvertedIndexInterface<Entry> iif;
+    InvertedIndexInterface<Entry>* iii;
     AVLTreeInvertedIndex<Entry>* avlTree;
     HashTableInvertedIndex<Entry>* hashTable;
     vector<CourtCase> results;
