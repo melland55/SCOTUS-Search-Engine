@@ -19,21 +19,14 @@ class CourtCase
 {
 public:
     CourtCase();
-    CourtCase(unsigned int, unsigned int, unsigned int, string, string, string, string, string, vector<tuple<string, unsigned int>>*);
+    CourtCase(string, string, string);
     CourtCase(const CourtCase&);
-    unsigned int getCount(string);
-    string toString();
+    void print();
     CourtCase* operator=(const CourtCase&);
 private:
-    unsigned int year;
-    unsigned int volumeNum;
-    unsigned int pageNum;
-    string bookWithOpinion;
-    string petitioner;
-    string respondent;
-    string majorityOpinionAuthor;
-    string judgementDecision;
-    vector<tuple<string, unsigned int>>* wordCountFrequency;
+    string year;
+    string id;
+    string location;
 };
 
 #endif // COURTCASE_H

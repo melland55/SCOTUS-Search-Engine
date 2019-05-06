@@ -15,7 +15,7 @@ struct Node{
     ~Node(){
         if(left) delete left;
         if(right) delete right;
-    };
+    }
 };
 
 template<class T>
@@ -90,6 +90,9 @@ T* AVLTreeInvertedIndex<T>::find(string item){
         }else if(cur->data < item && cur->left != nullptr){
             cur = cur->right;
         }else{
+            return nullptr;
+        }
+        if(cur == nullptr){
             return nullptr;
         }
     }

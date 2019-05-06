@@ -7,7 +7,6 @@ SOURCES += \
     main.cpp \
     userinterface.cpp \
     courtcase.cpp \
-    search.cpp \
     porter2_stemmer.cpp \
     jsonparser.cpp \
     index.cpp
@@ -15,7 +14,6 @@ SOURCES += \
 HEADERS += \
     userinterface.h \
     courtcase.h \
-    search.h \
     invertedindexinterface.h \
     avltreeinvertedindex.h \
     hashtableinvertedindex.h \

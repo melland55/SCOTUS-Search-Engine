@@ -7,8 +7,10 @@
 #include "porter2_stemmer.h"
 #include "avltreeinvertedindex.h"
 #include "hashtableinvertedindex.h"
+#include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 //Sets Defualt Inverted Index to AVLTree
 UserInterface::UserInterface(){
@@ -96,7 +98,7 @@ void UserInterface::maintenacenMode(){
 
 void UserInterface::interactiveMode(){
     cout << "Loading Index..." << endl;
-    if(!isHash){
+    if(!isHash && !index.getIndex()->empty()){
         iii = new AVLTreeInvertedIndex<Entry>(*index.getIndex());
     }else{
         iii = new HashTableInvertedIndex<Entry>(*index.getIndex());
@@ -238,17 +240,7 @@ void UserInterface::searchMode(){
             }
         }
     }
-    Entry* test;
-    if(isHash){
-        test = hashTable->find(ands[0]);
-    }else{
-        test = avlTree->find(ands[0]);
-    }
-    vector<CourtCase> cases;
-    for(int i = 0; i < 35; i++){
-        CourtCase file;
-        cases.push_back(file);
-    }
+    vector<CourtCase> cases = search(ands, ors, nots);
     string userInput = "?";
     unsigned int sum = 0;
     cout << endl;
@@ -292,28 +284,114 @@ void UserInterface::searchMode(){
 }
 
 vector<CourtCase> UserInterface::search(vector<string>& ands, vector<string>& ors, vector<string>& nots){
+    vector<CourtCase> cases;
     vector<tuple<string, int>> results;
-    for(unsigned int i = 0; i < ands->size(); i++){
-        Entry* temp;
-        if(i == 0){
-            for(unsigned int j = 0; j < temp->occurrences.size(); j++){
-                results.push_back(temp->occurrences.at(j));
-            }
-        }else{
-            for(unsigned int j = 0; j < temp->occurrences.size(); j++){
-                bool dec = true;
-                for(unsigned int k = 0; k < results.size(); k++){
-                    if(get<0>(results.at(k)) == get<0>(temp->occurrences.at(j))){
-                        get<1>(results.at(k)) += get<1>(temp->occurrences.at(j));
-                        dec = false;
-                    }
+    for(unsigned int i = 0; i < ands.size(); i++){
+        Entry* entry = iii->find(ands.at(i));
+        if(entry != nullptr){
+            if(i == 0){
+                for(unsigned int j = 0; j < entry->occurrences.size(); j++){
+                    results.push_back(entry->occurrences.at(j));
                 }
-                if(dec){
-                    results.erase(results.begin() + k);
+            }else{
+                for(unsigned int j = 0; j < results.size(); j++){
+                    bool dec = true;
+                    for(unsigned int k = 0; k < entry->occurrences.size(); k++){
+                        if(get<0>(entry->occurrences.at(k)) == get<0>(results.at(j))){
+                            dec = false;
+                            get<1>(results.at(j)) += get<1>(entry->occurrences.at(k));
+                        }
+                    }
+                    if(dec){
+                        results.erase(results.begin() + j);
+                        j--;
+                    }
                 }
             }
         }
     }
 
+    if(!ors.empty()){
+        vector<tuple<string, int>> allOrs;
+        Entry* newOr = iii->find(ors.at(0));
+        for(unsigned int j = 0; j < newOr->occurrences.size(); j++){
+            allOrs.push_back(newOr->occurrences.at(j));
+        }
+        for(unsigned int j = 1; j < ors.size(); j++){
+            Entry* tempOr = iii->find(ors.at(j));
+            for(unsigned int k = 0; k < allOrs.size(); k++){
+                for(unsigned int l = 0; l < tempOr->occurrences.size(); l++){
+                    if(get<0>(tempOr->occurrences.at(l)) == get<0>(allOrs.at(k))){
+                        get<1>(allOrs.at(k)) += get<1>(tempOr->occurrences.at(l));
+                        tempOr->occurrences.erase(tempOr->occurrences.begin() + l);
+                    }
+                }
+            }
+            for(unsigned int k = 0; k < tempOr->occurrences.size(); k++){
+                allOrs.push_back(tempOr->occurrences.at(k));
+            }
+        }
+        if(results.empty()){
+            for(unsigned int j = 0; j < allOrs.size(); j++){
+                results.push_back(allOrs.at(j));
+            }
+        }else{
+            for(unsigned int j = 0; j < results.size(); j++){
+                bool dec = true;
+                for(unsigned int k = 0; k < allOrs.size(); k++){
+                    if(get<0>(allOrs.at(k)) == get<0>(results.at(j))){
+                        dec = false;
+                        get<1>(results.at(j)) += get<1>(allOrs.at(k));
+                    }
+                }
+                if(dec){
+                    results.erase(results.begin() + j);
+                    j--;
+                }
+            }
+        }
+    }
 
+    if(!nots.empty()){
+        vector<tuple<string, int>> allNots;
+        Entry* newNot = iii->find(nots.at(0));
+        if(newNot != nullptr){
+            for(unsigned int j = 0; j < newNot->occurrences.size(); j++){
+                allNots.push_back(newNot->occurrences.at(j));
+            }
+            for(unsigned int j = 1; j < nots.size(); j++){
+                Entry* tempNot = iii->find(nots.at(j));
+                for(unsigned int k = 0; k < allNots.size(); k++){
+                    for(unsigned int l = 0; l < tempNot->occurrences.size(); l++){
+                        if(get<0>(tempNot->occurrences.at(l)) == get<0>(allNots.at(k))){
+                            tempNot->occurrences.erase(tempNot->occurrences.begin() + l);
+                        }
+                    }
+                }
+            }
+            for(unsigned int j = 0; j < results.size(); j++){
+                for(unsigned int k = 0; k < allNots.size(); k++){
+                    if(get<0>(allNots.at(k)) == get<0>(results.at(j))){
+                        results.erase(results.begin() + j);
+                        j--;
+                    }
+                }
+            }
+        }
+    }
+    sort(results.begin(), results.end(), tupleSort);
+    for(unsigned int i = 0; i < results.size(); i++){
+        try{
+            json file = json::parse(get<0>(results.at(i)));
+            CourtCase tempCase(file.at("date_created"), file.at("id"), get<0>(results.at(i)));
+            cases.push_back(tempCase);
+        } catch(...){
+            CourtCase tempCase("", "", get<0>(results.at(i)));
+            cases.push_back(tempCase);
+        }
+    }
+}
+
+bool UserInterface::tupleSort(const tuple<string, int>& x, const tuple<string, int>& y){
+    return (get<1>(x) > get<1>(y));
 }

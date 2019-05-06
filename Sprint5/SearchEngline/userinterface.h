@@ -26,6 +26,7 @@ private:
     AVLTreeInvertedIndex<Entry>* avlTree;
     HashTableInvertedIndex<Entry>* hashTable;
     vector<CourtCase> results;
+    static bool tupleSort(const tuple<string, int>& x, const tuple<string, int>& y);
 };
 
 #endif // USERINTERFACE_H

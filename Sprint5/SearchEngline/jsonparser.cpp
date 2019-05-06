@@ -36,7 +36,7 @@ int JsonParser::parseFiles(string dirName, Index& index){
         int sum = 0;
 
         //Loop through every File in Directory dirName and parses
-        while((ent = readdir(dir)) != NULL){
+        while((ent = readdir(dir)) != NULL && sum < 30){
             unsigned int len = strlen(ent->d_name);
             if(ent->d_type == DT_REG && len > extn.length() && strcmp(ent->d_name + len - extn.length(), extn.c_str()) == 0){
                 sum++;
