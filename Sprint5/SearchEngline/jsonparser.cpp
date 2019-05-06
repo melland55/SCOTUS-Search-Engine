@@ -87,7 +87,7 @@ int JsonParser::parseFiles(string dirName, Index& index){
 
 
                             //Adds current word str to the index
-                            if(str.length() != 0){
+                            if(str.length() > 2){
 
                                 index.add(str, (dirName + "/" + ent->d_name));
                             }
