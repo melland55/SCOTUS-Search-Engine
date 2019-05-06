@@ -2,6 +2,7 @@
  *History:
     1. major change was a change in what we were storing for each court case in order for a better search functionality
     2. converted all int variables to be unsigned int
+    3. changed which variables are stored due to difficulty parsing data from html for specific data
 */
 
 #ifndef COURTCASE_H
