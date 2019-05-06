@@ -1,3 +1,9 @@
+/*Owner: Jack Rosenblatt
+ *History:
+    1. major change was a change in what we were storing for each court case in order for a better search functionality
+    2. converted all int variables to be unsigned int
+*/
+
 #ifndef COURTCASE_H
 #define COURTCASE_H
 

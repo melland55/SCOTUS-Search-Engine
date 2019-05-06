@@ -9,7 +9,6 @@ SOURCES += \
     userinterface.cpp \
     courtcase.cpp \
     search.cpp \
-    invertedindexinterface.cpp \
     porter2_stemmer.cpp \
     jsonparser.cpp \
     index.cpp
